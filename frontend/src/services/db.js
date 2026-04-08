@@ -2,6 +2,7 @@ import { supabase } from '../lib/supabase'
 import { getCurrentUser } from './auth'
 
 const USER_SETUP_CACHE_PREFIX = 'greenlytics_user_setup_'
+let hasWarnedMissingUserProfilesTable = false
 
 function toNumberOrNull(value) {
   const parsed = Number(value)
@@ -44,6 +45,21 @@ function writeCachedSetup(userId, setup) {
   } catch {
     // Ignore storage write errors.
   }
+}
+
+function isNoRowsError(error) {
+  return error?.code === 'PGRST116'
+}
+
+function isMissingUserProfilesTableError(error) {
+  const message = String(error?.message || '').toLowerCase()
+  return error?.code === 'PGRST205' || message.includes("could not find the table 'public.user_profiles'")
+}
+
+function warnUserProfilesTableMissing(error) {
+  if (hasWarnedMissingUserProfilesTable) return
+  hasWarnedMissingUserProfilesTable = true
+  console.warn('[supabase] Missing table public.user_profiles. Run migrations in your Supabase project.', error?.message || '')
 }
 
 export async function saveESGReport(data) {
@@ -116,8 +132,15 @@ export async function getUserSetup() {
     if (!user?.id) return null
     const cachedSetup = readCachedSetup(user.id)
 
-    const { data, error } = await supabase.from('user_profiles').select('*').eq('user_id', user.id).maybeSingle()
+    const { data, error } = await supabase.from('user_profiles').select('*').eq('user_id', user.id).single()
     if (error) {
+      if (isNoRowsError(error)) {
+        return cachedSetup || null
+      }
+      if (isMissingUserProfilesTableError(error)) {
+        warnUserProfilesTableMissing(error)
+        return cachedSetup || null
+      }
       console.error('getUserSetup query error:', error.message)
       return cachedSetup
     }
@@ -163,6 +186,11 @@ export async function saveUserSetup(setupData) {
 
     const { data, error } = await supabase.from('user_profiles').upsert(payload, { onConflict: 'user_id' }).select().single()
     if (error) {
+      if (isMissingUserProfilesTableError(error)) {
+        warnUserProfilesTableMissing(error)
+        writeCachedSetup(user.id, localFallback)
+        return localFallback
+      }
       console.error('saveUserSetup upsert error:', error.message)
       writeCachedSetup(user.id, localFallback)
       return localFallback
@@ -189,6 +217,10 @@ export async function deleteUserSetup() {
 
     const { error } = await supabase.from('user_profiles').delete().eq('user_id', user.id)
     if (error) {
+      if (isMissingUserProfilesTableError(error)) {
+        warnUserProfilesTableMissing(error)
+        return true
+      }
       console.error('deleteUserSetup delete error:', error.message)
       return false
     }

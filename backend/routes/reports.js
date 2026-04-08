@@ -4,7 +4,22 @@ const { createReport, deleteReport, getReportById, getReportsByUser, updateRepor
 const router = express.Router()
 
 function getUserId(req) {
-  return req.headers['x-user-id'] || req.query.userId || req.body?.userId || ''
+  const fromHeader = req.headers['x-user-id']
+  const fromQuery = req.query?.userId
+  const fromBody = req.body?.userId
+  const resolved = fromHeader || fromQuery || fromBody || ''
+  return String(resolved).trim()
+}
+
+function requireUserId(req, res) {
+  const userId = getUserId(req)
+  if (!userId) {
+    console.warn('Missing user id for request:', req.method, req.originalUrl)
+    res.status(401).json({ error: 'Missing user id.' })
+    return null
+  }
+  console.log('User ID used:', userId)
+  return userId
 }
 
 function validateReportPayload(payload) {
@@ -18,10 +33,9 @@ function validateReportPayload(payload) {
 
 router.get('/', async (req, res) => {
   try {
-    const userId = getUserId(req)
-    if (!userId) return res.status(400).json({ error: 'Missing user id.' })
-
-    const reports = await getReportsByUser(String(userId))
+    const userId = requireUserId(req, res)
+    if (!userId) return
+    const reports = await getReportsByUser(userId)
     return res.json(reports)
   } catch (error) {
     console.error('GET /api/reports error:', error)
@@ -31,10 +45,9 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
   try {
-    const userId = getUserId(req)
-    if (!userId) return res.status(400).json({ error: 'Missing user id.' })
-
-    const report = await getReportById(String(userId), req.params.id)
+    const userId = requireUserId(req, res)
+    if (!userId) return
+    const report = await getReportById(userId, req.params.id)
     if (!report) return res.status(404).json({ error: 'Report not found.' })
     return res.json(report)
   } catch (error) {
@@ -45,13 +58,12 @@ router.get('/:id', async (req, res) => {
 
 router.post('/', async (req, res) => {
   try {
-    const userId = getUserId(req)
-    if (!userId) return res.status(400).json({ error: 'Missing user id.' })
-
+    const userId = requireUserId(req, res)
+    if (!userId) return
     const validationError = validateReportPayload(req.body)
     if (validationError) return res.status(400).json({ error: validationError })
 
-    const created = await createReport(String(userId), req.body)
+    const created = await createReport(userId, req.body)
     return res.status(201).json(created)
   } catch (error) {
     console.error('POST /api/reports error:', error)
@@ -61,13 +73,12 @@ router.post('/', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
   try {
-    const userId = getUserId(req)
-    if (!userId) return res.status(400).json({ error: 'Missing user id.' })
-
+    const userId = requireUserId(req, res)
+    if (!userId) return
     const validationError = validateReportPayload(req.body)
     if (validationError) return res.status(400).json({ error: validationError })
 
-    const updated = await updateReport(String(userId), req.params.id, req.body)
+    const updated = await updateReport(userId, req.params.id, req.body)
     if (!updated) return res.status(404).json({ error: 'Report not found.' })
     return res.json(updated)
   } catch (error) {
@@ -78,10 +89,9 @@ router.put('/:id', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
   try {
-    const userId = getUserId(req)
-    if (!userId) return res.status(400).json({ error: 'Missing user id.' })
-
-    const deleted = await deleteReport(String(userId), req.params.id)
+    const userId = requireUserId(req, res)
+    if (!userId) return
+    const deleted = await deleteReport(userId, req.params.id)
     if (!deleted) return res.status(404).json({ error: 'Report not found.' })
     return res.json({ success: true })
   } catch (error) {

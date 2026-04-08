@@ -11,10 +11,20 @@ export async function requestJson(path, options = {}, fallbackMessage = 'Request
   }
 
   const url = toAbsoluteUrl(path)
+  const requestOptions = {
+    ...options,
+    credentials: options.credentials ?? 'include',
+  }
 
   try {
-    const response = await fetch(url, options)
+    if (import.meta.env.DEV) {
+      console.debug('[http] request', requestOptions.method || 'GET', url)
+    }
+    const response = await fetch(url, requestOptions)
     const payload = await response.json().catch(() => null)
+    if (import.meta.env.DEV) {
+      console.debug('[http] response', response.status, url)
+    }
     if (!response.ok) {
       throw new Error(payload?.error || fallbackMessage)
     }

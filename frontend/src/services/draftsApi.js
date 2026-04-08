@@ -1,12 +1,25 @@
-import { getCurrentUser } from './auth'
+import { getCurrentUser, waitForSessionUser } from './auth'
 import { requestJson } from './http'
 
+async function resolveUserId() {
+  const sessionUser = await waitForSessionUser({ timeoutMs: 3200, intervalMs: 120 }).catch(() => null)
+  if (sessionUser?.id) return sessionUser.id
+
+  const currentUser = await getCurrentUser().catch(() => null)
+  if (currentUser?.id) return currentUser.id
+
+  return ''
+}
+
 async function withUserHeaders() {
-  const user = await getCurrentUser().catch(() => null)
-  if (!user?.id) throw new Error('You must be logged in to access drafts.')
+  const userId = await resolveUserId()
+  if (!userId) throw new Error('You must be logged in to access drafts.')
+  if (import.meta.env.DEV) {
+    console.debug('[draftsApi] using user id', userId)
+  }
   return {
     'Content-Type': 'application/json',
-    'x-user-id': user.id,
+    'x-user-id': userId,
   }
 }
 

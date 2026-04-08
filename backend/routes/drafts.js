@@ -4,14 +4,29 @@ const { createDraft, deleteCurrentDraft, getCurrentDraft, updateDraft } = requir
 const router = express.Router()
 
 function getUserId(req) {
-  return req.headers['x-user-id'] || req.query.userId || req.body?.userId || ''
+  const fromHeader = req.headers['x-user-id']
+  const fromQuery = req.query?.userId
+  const fromBody = req.body?.userId
+  const resolved = fromHeader || fromQuery || fromBody || ''
+  return String(resolved).trim()
+}
+
+function requireUserId(req, res) {
+  const userId = getUserId(req)
+  if (!userId) {
+    console.warn('Missing user id for request:', req.method, req.originalUrl)
+    res.status(401).json({ error: 'Missing user id.' })
+    return null
+  }
+  console.log('User ID used:', userId)
+  return userId
 }
 
 router.get('/current', async (req, res) => {
   try {
-    const userId = getUserId(req)
-    if (!userId) return res.status(400).json({ error: 'Missing user id.' })
-    const draft = await getCurrentDraft(String(userId))
+    const userId = requireUserId(req, res)
+    if (!userId) return
+    const draft = await getCurrentDraft(userId)
     return res.json(draft || null)
   } catch (error) {
     console.error('GET /api/drafts/current error:', error)
@@ -21,9 +36,9 @@ router.get('/current', async (req, res) => {
 
 router.post('/', async (req, res) => {
   try {
-    const userId = getUserId(req)
-    if (!userId) return res.status(400).json({ error: 'Missing user id.' })
-    const draft = await createDraft(String(userId), req.body)
+    const userId = requireUserId(req, res)
+    if (!userId) return
+    const draft = await createDraft(userId, req.body)
     return res.status(201).json(draft)
   } catch (error) {
     console.error('POST /api/drafts error:', error)
@@ -33,9 +48,9 @@ router.post('/', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
   try {
-    const userId = getUserId(req)
-    if (!userId) return res.status(400).json({ error: 'Missing user id.' })
-    const draft = await updateDraft(String(userId), req.params.id, req.body)
+    const userId = requireUserId(req, res)
+    if (!userId) return
+    const draft = await updateDraft(userId, req.params.id, req.body)
     if (!draft) return res.status(404).json({ error: 'Draft not found.' })
     return res.json(draft)
   } catch (error) {
@@ -46,9 +61,9 @@ router.put('/:id', async (req, res) => {
 
 router.delete('/current', async (req, res) => {
   try {
-    const userId = getUserId(req)
-    if (!userId) return res.status(400).json({ error: 'Missing user id.' })
-    const deleted = await deleteCurrentDraft(String(userId))
+    const userId = requireUserId(req, res)
+    if (!userId) return
+    const deleted = await deleteCurrentDraft(userId)
     return res.json({ success: deleted })
   } catch (error) {
     console.error('DELETE /api/drafts/current error:', error)

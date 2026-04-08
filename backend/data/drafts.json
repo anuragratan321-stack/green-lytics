@@ -7,7 +7,7 @@
     "inputs": {
       "environmental": {
         "values": {
-          "carbonEmissions": "",
+          "carbonEmissions": "1200",
           "revenue": "",
           "revenueCurrency": "",
           "revenueMeta": {
@@ -27,11 +27,43 @@
           "waterUsage": false,
           "wasteRecycling": false
         }
+      },
+      "social": {
+        "values": {
+          "employeeSatisfaction": "",
+          "attritionRate": "",
+          "genderDiversity": "",
+          "workplaceIncidents": "",
+          "csrSpending": ""
+        },
+        "skipped": {
+          "employeeSatisfaction": false,
+          "attritionRate": false,
+          "genderDiversity": false,
+          "workplaceIncidents": false,
+          "csrSpending": false
+        }
+      },
+      "governance": {
+        "values": {
+          "boardIndependence": "",
+          "womenOnBoard": "",
+          "ceoPayRatio": "",
+          "fraudCases": "",
+          "transparencyScore": ""
+        },
+        "skipped": {
+          "boardIndependence": false,
+          "womenOnBoard": false,
+          "ceoPayRatio": false,
+          "fraudCases": false,
+          "transparencyScore": false
+        }
       }
     },
     "metadata": {
       "step": "environmental"
     },
-    "updatedAt": "2026-04-08T16:07:03.361Z"
+    "updatedAt": "2026-04-08T19:05:23.944Z"
   }
 ]

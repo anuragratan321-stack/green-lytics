@@ -4,30 +4,22 @@ function readEnvValue(primaryKey, fallbackKey) {
   return (primary || fallback || '').toString().trim()
 }
 
-function warnMissing(key, fallbackValue = '') {
-  if (fallbackValue) {
-    console.warn(`[env] ${key} is missing. Using fallback value.`)
-    return
-  }
-  console.warn(`[env] ${key} is missing. Please configure it in your deployment environment.`)
-}
-
 const resolvedBackendUrl = readEnvValue('VITE_BACKEND_URL')
 const resolvedSupabaseUrl = readEnvValue('VITE_SUPABASE_URL', 'NEXT_PUBLIC_SUPABASE_URL')
 const resolvedSupabaseAnonKey = readEnvValue('VITE_SUPABASE_ANON_KEY', 'NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY')
 
 if (!resolvedBackendUrl) {
-  warnMissing('VITE_BACKEND_URL', window?.location?.origin || '')
+  console.warn('[env] VITE_BACKEND_URL is missing.')
 }
 
 if (!resolvedSupabaseUrl) {
-  warnMissing('VITE_SUPABASE_URL')
+  console.warn('[env] VITE_SUPABASE_URL is missing. Please configure it in your deployment environment.')
 }
 
 if (!resolvedSupabaseAnonKey) {
-  warnMissing('VITE_SUPABASE_ANON_KEY')
+  console.warn('[env] VITE_SUPABASE_ANON_KEY is missing. Please configure it in your deployment environment.')
 }
 
-export const BACKEND_BASE_URL = (resolvedBackendUrl || window?.location?.origin || '').replace(/\/+$/, '')
+export const BACKEND_BASE_URL = resolvedBackendUrl.replace(/\/+$/, '')
 export const SUPABASE_URL = resolvedSupabaseUrl
 export const SUPABASE_ANON_KEY = resolvedSupabaseAnonKey
