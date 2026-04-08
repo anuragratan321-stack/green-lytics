@@ -1,5 +1,6 @@
 const express = require('express')
 const dotenv = require('dotenv')
+const cors = require('cors')
 const aiRoute = require('./routes/ai.js')
 const reportsRoute = require('./routes/reports.js')
 const draftsRoute = require('./routes/drafts.js')
@@ -9,28 +10,42 @@ dotenv.config()
 const app = express()
 const PORT = process.env.PORT || 5001
 const allowedOrigins = ['http://localhost:3000', 'http://localhost:5173', 'https://green-lytics.vercel.app']
+const envAllowedOrigins = (process.env.CORS_ORIGIN || '')
+  .split(',')
+  .map((origin) => origin.trim())
+  .filter(Boolean)
+const allAllowedOrigins = [...allowedOrigins, ...envAllowedOrigins]
 
-app.use(
-  (req, res, next) => {
-    const origin = req.headers.origin
+function normalizeOrigin(value) {
+  return String(value || '')
+    .trim()
+    .toLowerCase()
+    .replace(/\/+$/, '')
+}
 
-    if (allowedOrigins.includes(origin)) {
-      res.setHeader('Access-Control-Allow-Origin', origin)
+const allowedOriginsSet = new Set(allAllowedOrigins.map(normalizeOrigin))
+
+const corsOptions = {
+  origin(origin, callback) {
+    if (!origin) {
+      return callback(null, true)
     }
 
-    res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS')
-    // Note: x-user-id is required by reports/drafts endpoints.
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, x-user-id')
-    res.setHeader('Access-Control-Allow-Credentials', 'true')
-
-    if (req.method === 'OPTIONS') {
-      return res.sendStatus(200)
+    const normalizedOrigin = normalizeOrigin(origin)
+    if (allowedOriginsSet.has(normalizedOrigin)) {
+      return callback(null, true)
     }
 
-    console.log('Incoming request:', req.method, req.url, req.headers.origin)
-    next()
+    console.warn('Blocked CORS origin:', origin)
+    return callback(new Error('Not allowed by CORS'))
   },
-)
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'x-user-id', 'X-User-Id'],
+}
+
+app.use(cors(corsOptions))
+app.options(/.*/, cors(corsOptions))
 
 app.use(express.json())
 
