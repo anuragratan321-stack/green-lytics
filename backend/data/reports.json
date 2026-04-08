@@ -1,0 +1,367 @@
+[
+  {
+    "_id": "85b11a14-fcbf-46f8-b85b-c1995098b818",
+    "userId": "9a786706-88c7-4cc4-b5c5-f401512e793b",
+    "industry": "IT / Tech",
+    "role": "Manager",
+    "companySize": "Large",
+    "region": "",
+    "scores": {
+      "environmental": 86.9,
+      "social": 90.9,
+      "governance": 94.3,
+      "total": 90.3
+    },
+    "inputs": {
+      "environmental": {
+        "values": {
+          "carbonEmissions": "1200",
+          "revenue": "5000000",
+          "revenueCurrency": "",
+          "revenueMeta": {
+            "value": "5000000",
+            "currency": "₹"
+          },
+          "renewableEnergy": "90",
+          "waterUsage": "200",
+          "wasteRecycling": "62"
+        },
+        "skipped": {
+          "carbonEmissions": false,
+          "revenue": false,
+          "revenueCurrency": false,
+          "revenueMeta": false,
+          "renewableEnergy": false,
+          "waterUsage": false,
+          "wasteRecycling": false
+        }
+      },
+      "social": {
+        "values": {
+          "employeeSatisfaction": "90",
+          "attritionRate": "0",
+          "genderDiversity": "49.8",
+          "workplaceIncidents": "0",
+          "csrSpending": "2"
+        },
+        "skipped": {
+          "employeeSatisfaction": false,
+          "attritionRate": false,
+          "genderDiversity": false,
+          "workplaceIncidents": false,
+          "csrSpending": false
+        }
+      },
+      "governance": {
+        "values": {
+          "boardIndependence": "95",
+          "womenOnBoard": "50",
+          "ceoPayRatio": "20",
+          "fraudCases": "0",
+          "transparencyScore": "90"
+        },
+        "skipped": {
+          "boardIndependence": false,
+          "womenOnBoard": false,
+          "ceoPayRatio": false,
+          "fraudCases": false,
+          "transparencyScore": false
+        }
+      }
+    },
+    "createdAt": "2026-04-08T13:29:33.073Z",
+    "updatedAt": "2026-04-08T13:29:33.073Z"
+  },
+  {
+    "_id": "850edac7-9ae2-4aac-9355-2187e20deef4",
+    "userId": "9a786706-88c7-4cc4-b5c5-f401512e793b",
+    "industry": "IT / Tech",
+    "role": "Manager",
+    "companySize": "Large",
+    "region": "",
+    "scores": {
+      "environmental": 54.5,
+      "social": 83.9,
+      "governance": 80,
+      "total": 71
+    },
+    "inputs": {
+      "environmental": {
+        "values": {
+          "carbonEmissions": "1200",
+          "revenue": "500000",
+          "revenueCurrency": "",
+          "revenueMeta": {
+            "value": "500000",
+            "currency": "₹"
+          },
+          "renewableEnergy": "40",
+          "waterUsage": "2300",
+          "wasteRecycling": "61.9"
+        },
+        "skipped": {
+          "carbonEmissions": false,
+          "revenue": false,
+          "revenueCurrency": false,
+          "revenueMeta": false,
+          "renewableEnergy": false,
+          "waterUsage": false,
+          "wasteRecycling": false
+        }
+      },
+      "social": {
+        "values": {
+          "employeeSatisfaction": "78",
+          "attritionRate": "3",
+          "genderDiversity": "49.8",
+          "workplaceIncidents": "2",
+          "csrSpending": "2"
+        },
+        "skipped": {
+          "employeeSatisfaction": false,
+          "attritionRate": false,
+          "genderDiversity": false,
+          "workplaceIncidents": false,
+          "csrSpending": false
+        }
+      },
+      "governance": {
+        "values": {
+          "boardIndependence": "90",
+          "womenOnBoard": "30",
+          "ceoPayRatio": "150",
+          "fraudCases": "0",
+          "transparencyScore": "80"
+        },
+        "skipped": {
+          "boardIndependence": false,
+          "womenOnBoard": false,
+          "ceoPayRatio": false,
+          "fraudCases": false,
+          "transparencyScore": false
+        }
+      }
+    },
+    "createdAt": "2026-04-08T13:31:31.188Z",
+    "updatedAt": "2026-04-08T13:31:31.188Z"
+  },
+  {
+    "_id": "f6282a76-9f72-4544-9c50-cbb3f4dd86e6",
+    "userId": "9a786706-88c7-4cc4-b5c5-f401512e793b",
+    "industry": "IT / Tech",
+    "role": "Manager",
+    "companySize": "Large",
+    "region": "",
+    "scores": {
+      "environmental": 31.8,
+      "social": 71.4,
+      "governance": 51.6,
+      "total": 49.6
+    },
+    "inputs": {
+      "environmental": {
+        "values": {
+          "carbonEmissions": "1500",
+          "revenue": "50000",
+          "revenueCurrency": "",
+          "revenueMeta": {
+            "value": "50000",
+            "currency": "₹"
+          },
+          "renewableEnergy": "29.8",
+          "waterUsage": "2500",
+          "wasteRecycling": "29.8"
+        },
+        "skipped": {
+          "carbonEmissions": false,
+          "revenue": false,
+          "revenueCurrency": false,
+          "revenueMeta": false,
+          "renewableEnergy": false,
+          "waterUsage": false,
+          "wasteRecycling": false
+        }
+      },
+      "social": {
+        "values": {
+          "employeeSatisfaction": "30",
+          "attritionRate": "0",
+          "genderDiversity": "39.8",
+          "workplaceIncidents": "4",
+          "csrSpending": "5"
+        },
+        "skipped": {
+          "employeeSatisfaction": false,
+          "attritionRate": false,
+          "genderDiversity": false,
+          "workplaceIncidents": false,
+          "csrSpending": false
+        }
+      },
+      "governance": {
+        "values": {
+          "boardIndependence": "30",
+          "womenOnBoard": "40",
+          "ceoPayRatio": "110",
+          "fraudCases": "5",
+          "transparencyScore": "30"
+        },
+        "skipped": {
+          "boardIndependence": false,
+          "womenOnBoard": false,
+          "ceoPayRatio": false,
+          "fraudCases": false,
+          "transparencyScore": false
+        }
+      }
+    },
+    "createdAt": "2026-04-08T13:33:40.205Z",
+    "updatedAt": "2026-04-08T13:33:40.205Z"
+  },
+  {
+    "_id": "c24078ea-82a1-4cb7-a7b1-ef179304fbca",
+    "userId": "9a786706-88c7-4cc4-b5c5-f401512e793b",
+    "industry": "IT / Tech",
+    "role": "Manager",
+    "companySize": "Large",
+    "region": "",
+    "scores": {
+      "environmental": 40,
+      "social": 69.8,
+      "governance": 81,
+      "total": 61.3
+    },
+    "inputs": {
+      "environmental": {
+        "values": {
+          "carbonEmissions": "2000",
+          "revenue": "50000",
+          "revenueCurrency": "",
+          "revenueMeta": {
+            "value": "50000",
+            "currency": "₹"
+          },
+          "renewableEnergy": "49.7",
+          "waterUsage": "200",
+          "wasteRecycling": "79.8"
+        },
+        "skipped": {
+          "carbonEmissions": false,
+          "revenue": false,
+          "revenueCurrency": false,
+          "revenueMeta": false,
+          "renewableEnergy": false,
+          "waterUsage": false,
+          "wasteRecycling": false
+        }
+      },
+      "social": {
+        "values": {
+          "employeeSatisfaction": "49.8",
+          "attritionRate": "3",
+          "genderDiversity": "30",
+          "workplaceIncidents": "0",
+          "csrSpending": "2"
+        },
+        "skipped": {
+          "employeeSatisfaction": false,
+          "attritionRate": false,
+          "genderDiversity": false,
+          "workplaceIncidents": false,
+          "csrSpending": false
+        }
+      },
+      "governance": {
+        "values": {
+          "boardIndependence": "80",
+          "womenOnBoard": "20",
+          "ceoPayRatio": "50",
+          "fraudCases": "0",
+          "transparencyScore": "80"
+        },
+        "skipped": {
+          "boardIndependence": false,
+          "womenOnBoard": false,
+          "ceoPayRatio": false,
+          "fraudCases": false,
+          "transparencyScore": false
+        }
+      }
+    },
+    "createdAt": "2026-04-08T13:36:16.711Z",
+    "updatedAt": "2026-04-08T14:26:47.567Z"
+  },
+  {
+    "_id": "eacc097c-138c-482e-bd26-35b1d15f6f8f",
+    "userId": "fc20ae7a-a3b0-49a7-a384-ca7d6b0d2cc0",
+    "industry": "IT / Tech",
+    "role": "Manager",
+    "companySize": "Medium",
+    "region": "",
+    "scores": {
+      "environmental": 62.3,
+      "social": 40,
+      "governance": 37.6,
+      "total": 48.2
+    },
+    "inputs": {
+      "environmental": {
+        "values": {
+          "carbonEmissions": "1200",
+          "revenue": "500000",
+          "revenueCurrency": "",
+          "revenueMeta": {
+            "value": "500000",
+            "currency": "₹"
+          },
+          "renewableEnergy": "79.9",
+          "waterUsage": "250",
+          "wasteRecycling": "19.9"
+        },
+        "skipped": {
+          "carbonEmissions": false,
+          "revenue": false,
+          "revenueCurrency": false,
+          "revenueMeta": false,
+          "renewableEnergy": false,
+          "waterUsage": false,
+          "wasteRecycling": false
+        }
+      },
+      "social": {
+        "values": {
+          "employeeSatisfaction": "20",
+          "attritionRate": "20",
+          "genderDiversity": "19.8",
+          "workplaceIncidents": "20",
+          "csrSpending": "20"
+        },
+        "skipped": {
+          "employeeSatisfaction": false,
+          "attritionRate": false,
+          "genderDiversity": false,
+          "workplaceIncidents": false,
+          "csrSpending": false
+        }
+      },
+      "governance": {
+        "values": {
+          "boardIndependence": "20",
+          "womenOnBoard": "20",
+          "ceoPayRatio": "19.8",
+          "fraudCases": "20",
+          "transparencyScore": "20"
+        },
+        "skipped": {
+          "boardIndependence": false,
+          "womenOnBoard": false,
+          "ceoPayRatio": false,
+          "fraudCases": false,
+          "transparencyScore": false
+        }
+      }
+    },
+    "createdAt": "2026-04-08T15:50:03.901Z",
+    "updatedAt": "2026-04-08T15:50:45.310Z"
+  }
+]

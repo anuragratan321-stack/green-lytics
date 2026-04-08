@@ -1,0 +1,37 @@
+[
+  {
+    "_id": "1ccb8627-8218-4c57-937b-45c540ec69bc",
+    "userId": "fc20ae7a-a3b0-49a7-a384-ca7d6b0d2cc0",
+    "status": "active",
+    "createdAt": "2026-04-08T16:07:03.361Z",
+    "inputs": {
+      "environmental": {
+        "values": {
+          "carbonEmissions": "",
+          "revenue": "",
+          "revenueCurrency": "",
+          "revenueMeta": {
+            "value": "",
+            "currency": "₹"
+          },
+          "renewableEnergy": "",
+          "waterUsage": "",
+          "wasteRecycling": ""
+        },
+        "skipped": {
+          "carbonEmissions": false,
+          "revenue": false,
+          "revenueCurrency": false,
+          "revenueMeta": false,
+          "renewableEnergy": false,
+          "waterUsage": false,
+          "wasteRecycling": false
+        }
+      }
+    },
+    "metadata": {
+      "step": "environmental"
+    },
+    "updatedAt": "2026-04-08T16:07:03.361Z"
+  }
+]
