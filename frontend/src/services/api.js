@@ -1,4 +1,4 @@
-const AI_INSIGHTS_URL = 'http://localhost:5001/ai/suggestions'
+import { requestJson } from './http'
 
 function normalizeLines(value) {
   if (!value || typeof value !== 'string') return []
@@ -14,20 +14,17 @@ export async function getAIInsights(data) {
   }
 
   try {
-    const response = await fetch(AI_INSIGHTS_URL, {
+    const payload = await requestJson(
+      '/ai/suggestions',
+      {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(data),
-    })
-
-    const payload = await response.json().catch(() => null)
-
-    if (!response.ok) {
-      const message = payload?.error || 'Failed to fetch AI insights.'
-      throw new Error(message)
-    }
+      },
+      'Failed to fetch AI insights.',
+    )
 
     const insights = Array.isArray(payload?.insights) ? payload.insights.filter(Boolean) : normalizeLines(payload?.insights)
     const quickInsights = Array.isArray(payload?.quickInsights) ? payload.quickInsights.filter(Boolean) : normalizeLines(payload?.quickInsights)

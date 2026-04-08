@@ -1,6 +1,5 @@
 import { getCurrentUser } from './auth'
-
-const DRAFTS_API_BASE = 'http://localhost:5001/api/drafts'
+import { requestJson } from './http'
 
 async function withUserHeaders() {
   const user = await getCurrentUser().catch(() => null)
@@ -11,36 +10,47 @@ async function withUserHeaders() {
   }
 }
 
-async function parseResponse(response, fallbackMessage) {
-  const payload = await response.json().catch(() => null)
-  if (!response.ok) throw new Error(payload?.error || fallbackMessage)
-  return payload
-}
-
 export async function getCurrentDraft() {
-  const headers = await withUserHeaders()
-  const response = await fetch(`${DRAFTS_API_BASE}/current`, { headers })
-  return parseResponse(response, 'Failed to fetch current draft.')
+  try {
+    const headers = await withUserHeaders()
+    return await requestJson('/api/drafts/current', { headers }, 'Failed to fetch current draft.')
+  } catch (error) {
+    throw new Error(error.message || 'Failed to fetch current draft.')
+  }
 }
 
 export async function createDraft(payload) {
-  const headers = await withUserHeaders()
-  const response = await fetch(DRAFTS_API_BASE, {
-    method: 'POST',
-    headers,
-    body: JSON.stringify(payload || {}),
-  })
-  return parseResponse(response, 'Failed to create draft.')
+  try {
+    const headers = await withUserHeaders()
+    return await requestJson(
+      '/api/drafts',
+      {
+        method: 'POST',
+        headers,
+        body: JSON.stringify(payload || {}),
+      },
+      'Failed to create draft.',
+    )
+  } catch (error) {
+    throw new Error(error.message || 'Failed to create draft.')
+  }
 }
 
 export async function updateDraft(id, payload) {
-  const headers = await withUserHeaders()
-  const response = await fetch(`${DRAFTS_API_BASE}/${encodeURIComponent(id)}`, {
-    method: 'PUT',
-    headers,
-    body: JSON.stringify(payload || {}),
-  })
-  return parseResponse(response, 'Failed to update draft.')
+  try {
+    const headers = await withUserHeaders()
+    return await requestJson(
+      `/api/drafts/${encodeURIComponent(id)}`,
+      {
+        method: 'PUT',
+        headers,
+        body: JSON.stringify(payload || {}),
+      },
+      'Failed to update draft.',
+    )
+  } catch (error) {
+    throw new Error(error.message || 'Failed to update draft.')
+  }
 }
 
 export async function saveCurrentDraft(payload) {
@@ -50,7 +60,14 @@ export async function saveCurrentDraft(payload) {
 }
 
 export async function removeCurrentDraft() {
-  const headers = await withUserHeaders()
-  const response = await fetch(`${DRAFTS_API_BASE}/current`, { method: 'DELETE', headers })
-  return parseResponse(response, 'Failed to delete current draft.')
+  try {
+    const headers = await withUserHeaders()
+    return await requestJson(
+      '/api/drafts/current',
+      { method: 'DELETE', headers },
+      'Failed to delete current draft.',
+    )
+  } catch (error) {
+    throw new Error(error.message || 'Failed to delete current draft.')
+  }
 }

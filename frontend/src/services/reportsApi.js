@@ -1,6 +1,5 @@
 import { getCurrentUser } from './auth'
-
-const REPORTS_API_BASE = 'http://localhost:5001/api/reports'
+import { requestJson } from './http'
 
 async function withUserHeaders() {
   const user = await getCurrentUser().catch(() => null)
@@ -13,54 +12,73 @@ async function withUserHeaders() {
   }
 }
 
-async function parseResponse(response, fallbackMessage) {
-  const payload = await response.json().catch(() => null)
-  if (!response.ok) {
-    throw new Error(payload?.error || fallbackMessage)
-  }
-  return payload
-}
-
 export async function fetchReports() {
-  const headers = await withUserHeaders()
-  const response = await fetch(REPORTS_API_BASE, { headers })
-  return parseResponse(response, 'Failed to fetch reports.')
+  try {
+    const headers = await withUserHeaders()
+    return await requestJson('/api/reports', { headers }, 'Failed to fetch reports.')
+  } catch (error) {
+    throw new Error(error.message || 'Failed to fetch reports.')
+  }
 }
 
 export async function fetchReportById(id) {
   if (!id) throw new Error('Report id is required.')
-  const headers = await withUserHeaders()
-  const response = await fetch(`${REPORTS_API_BASE}/${encodeURIComponent(id)}`, { headers })
-  return parseResponse(response, 'Failed to fetch report.')
+  try {
+    const headers = await withUserHeaders()
+    return await requestJson(`/api/reports/${encodeURIComponent(id)}`, { headers }, 'Failed to fetch report.')
+  } catch (error) {
+    throw new Error(error.message || 'Failed to fetch report.')
+  }
 }
 
 export async function createReport(payload) {
-  const headers = await withUserHeaders()
-  const response = await fetch(REPORTS_API_BASE, {
-    method: 'POST',
-    headers,
-    body: JSON.stringify(payload),
-  })
-  return parseResponse(response, 'Failed to create report.')
+  try {
+    const headers = await withUserHeaders()
+    return await requestJson(
+      '/api/reports',
+      {
+        method: 'POST',
+        headers,
+        body: JSON.stringify(payload),
+      },
+      'Failed to create report.',
+    )
+  } catch (error) {
+    throw new Error(error.message || 'Failed to create report.')
+  }
 }
 
 export async function updateReport(id, payload) {
   if (!id) throw new Error('Report id is required.')
-  const headers = await withUserHeaders()
-  const response = await fetch(`${REPORTS_API_BASE}/${encodeURIComponent(id)}`, {
-    method: 'PUT',
-    headers,
-    body: JSON.stringify(payload),
-  })
-  return parseResponse(response, 'Failed to update report.')
+  try {
+    const headers = await withUserHeaders()
+    return await requestJson(
+      `/api/reports/${encodeURIComponent(id)}`,
+      {
+        method: 'PUT',
+        headers,
+        body: JSON.stringify(payload),
+      },
+      'Failed to update report.',
+    )
+  } catch (error) {
+    throw new Error(error.message || 'Failed to update report.')
+  }
 }
 
 export async function removeReport(id) {
   if (!id) throw new Error('Report id is required.')
-  const headers = await withUserHeaders()
-  const response = await fetch(`${REPORTS_API_BASE}/${encodeURIComponent(id)}`, {
-    method: 'DELETE',
-    headers,
-  })
-  return parseResponse(response, 'Failed to delete report.')
+  try {
+    const headers = await withUserHeaders()
+    return await requestJson(
+      `/api/reports/${encodeURIComponent(id)}`,
+      {
+        method: 'DELETE',
+        headers,
+      },
+      'Failed to delete report.',
+    )
+  } catch (error) {
+    throw new Error(error.message || 'Failed to delete report.')
+  }
 }
