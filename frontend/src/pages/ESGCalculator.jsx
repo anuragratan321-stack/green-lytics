@@ -70,13 +70,22 @@ function ESGCalculator() {
                   max='100'
                   value={environmental}
                   onChange={(event) => setEnvironmental(event.target.value)}
+                  onWheel={(event) => event.currentTarget.blur()}
                   className={inputClass}
                 />
               </label>
 
               <label className='block text-sm font-medium text-zinc-700 dark:text-zinc-200'>
                 Social Score (30%)
-                <input type='number' min='0' max='100' value={social} onChange={(event) => setSocial(event.target.value)} className={inputClass} />
+                <input
+                  type='number'
+                  min='0'
+                  max='100'
+                  value={social}
+                  onChange={(event) => setSocial(event.target.value)}
+                  onWheel={(event) => event.currentTarget.blur()}
+                  className={inputClass}
+                />
               </label>
 
               <label className='block text-sm font-medium text-zinc-700 dark:text-zinc-200'>
@@ -87,6 +96,7 @@ function ESGCalculator() {
                   max='100'
                   value={governance}
                   onChange={(event) => setGovernance(event.target.value)}
+                  onWheel={(event) => event.currentTarget.blur()}
                   className={inputClass}
                 />
               </label>

@@ -27,6 +27,13 @@ function FieldTooltip({ text }) {
 }
 
 function ESGInputLayout({ title, description, stepIndex, fields, values, skipped, onChange, onToggleSkip, onBack, onNext, nextLabel, children, draftStatus }) {
+  const handleNumberInputWheel = (event, field) => {
+    const resolvedType = field.type || 'number'
+    if (resolvedType === 'number') {
+      event.currentTarget.blur()
+    }
+  }
+
   const handleFieldChange = (field, rawValue) => {
     const cleanedValue = field.allowCommas ? rawValue.replaceAll(',', '') : rawValue
     onChange(field.key, cleanedValue)
@@ -147,6 +154,7 @@ function ESGInputLayout({ title, description, stepIndex, fields, values, skipped
                     step={field.step}
                     value={values[field.key] ?? ''}
                     onChange={(event) => handleFieldChange(field, event.target.value)}
+                    onWheel={(event) => handleNumberInputWheel(event, field)}
                     placeholder={field.placeholder}
                     className={'flex-1 ' + inputClass + (fieldErrors[field.key] ? ' border-rose-400 focus:border-rose-500' : '')}
                     disabled={Boolean(skipped[field.key])}
